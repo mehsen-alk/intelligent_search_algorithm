@@ -27,10 +27,17 @@ public class GraphFileHelper {
             graph = new Graph(numberOfVertices);
 
             for (int i = 0; i < numberOfVertices; i++){
-                graph.vertices[i] = extractListOfEdge(reader.readLine().replaceAll(" ", ""));
+                try {
+                graph.vertices[i] = extractListOfEdge(reader.readLine().replaceAll(" ", ""), numberOfVertices);
+                }
+                catch (NullPointerException ignored){}
+                catch (RuntimeException e){
+                    System.out.println("exception found in vertex number: " + i);
+                    System.out.println(e.getMessage());
+                }
             }
 
-            reader.close();
+//            reader.close();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -39,18 +46,27 @@ public class GraphFileHelper {
         return graph;
     }
 
-    private static LinkedList<Edge> extractListOfEdge(String line) {
+    private static LinkedList<Edge> extractListOfEdge(String line, int numberOfVertex) {
+
         LinkedList<Edge> list = new LinkedList<>();
         String[] edgesAsString;
 
         line = line.substring(line.indexOf("_") + 1);
 
         // if was false that means the current vertex doesn't have direct edge to other vertex
-        if (line.contains(",")) {
+        if (line.contains(":")) {
             edgesAsString = line.split(",");
 
             for (int i = 0; i < edgesAsString.length; i++) {
-                list.add(extractEdge(edgesAsString[i]));
+                var edge = extractEdge(edgesAsString[i]);
+
+                if (edge.destination < numberOfVertex) {
+                    list.add(edge);
+                }else{
+                    throw new RuntimeException("DESTINATION OUT OF RANGE:\n" +
+                            " accepted rang is [0, " + numberOfVertex + "[ " +
+                            "but found: " + edge.destination);
+                }
             }
         }
 
