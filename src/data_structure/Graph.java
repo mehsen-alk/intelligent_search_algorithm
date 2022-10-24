@@ -1,55 +1,66 @@
 package data_structure;
 
-import java.io.*;
 
 
-/**
- *  T can be ether [Edge] or [WEdge]
- * <p>
- *  first vertex will be 0 and the last one will be [numberOfVertex - 1]
- * </p>
- */
-public class Graph<T extends EdgeInterface> {
-    LinkedList<T>[] vertexes;
+public class Graph {
+    protected LinkedList<Edge>[] vertices;
 
-    public Graph(int numberOfVertex){
-        vertexes = (LinkedList<T>[]) new LinkedList[numberOfVertex];
-        for (int i = 0; i < numberOfVertex; i++){
-            vertexes[i] = new LinkedList<T>();
+    /**
+     * create new graph with fixed number of vertex
+     * @param numberOfVertices
+     */
+    public Graph(int numberOfVertices) {
+        vertices = new LinkedList[numberOfVertices];
+
+        for(int i = 0; i < numberOfVertices; i++){
+            vertices[i] = new LinkedList<>();
         }
     }
 
-    public void addEdge(int vertex, T value){
-        vertexes[vertex].add(value);
+    static public Graph fromFile(){
+        return fromFile("input.txt");
     }
 
-    public void removeEdge(int vertex, T value){
-        vertexes[vertex].remove(value);
+    static public Graph fromFile(String filePath){
+        return GraphFileHelper.fromFile(filePath);
+    }
+
+    public void addEdge(int source, int destination, double wight) {
+        if (source >= vertices.length)
+            throw new RuntimeException("\n\nSOURCE OUT OF RANGE: " +
+                    "the range is [0," + vertices.length + "[\n " +
+                    "source was: " + source + "\n\n");
+
+        if (destination >= vertices.length)
+            throw new RuntimeException("\n\nDESTINATION OUT OF RANGE: " +
+                    "the range is [0," + vertices.length + "] " +
+                    "destination was: " + destination + "\n\n");
+
+        vertices[source].add(new Edge(destination, wight));
+    }
+
+    public void removeEdge(int source, int destination, double wight){
+        if (source < vertices.length && destination < vertices.length) {
+            vertices[source].remove(new Edge(destination, wight));
+        }
     }
 
     @Override
     public String toString() {
-        String result = "";
+        String result = "v" + vertices.length + "\n";
 
-        for(int i = 0; i < vertexes.length; i++){
-            result += ( i + " _ " + vertexes[i] + "\n");
+        for(int i = 0; i < vertices.length; i++){
+            result += i + "_ " + vertices[i].toString() + "\n";
         }
+
         return result;
     }
 
     public void toFile(){
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("output,txt"));
-            String wEdge = "";
-            if(vertexes[0].getFirst() instanceof WEdge)
-                wEdge = "w";
-            writer.write("v " + vertexes.length + " " + wEdge + "\n");
-            writer.write(this.toString());
+        toFile("output.txt");
+    }
 
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void toFile(String filePath){
+        GraphFileHelper.toFile(this, filePath);
     }
 }
-

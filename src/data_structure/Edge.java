@@ -1,14 +1,32 @@
 package data_structure;
 
-public class Edge implements EdgeInterface{
-    int vertex;
+import java.util.Objects;
 
-    public Edge(int vertex) {
-        this.vertex = vertex;
+public class Edge {
+    int destination;
+    double wight;
+
+    public Edge(int destination, double wight) {
+
+        this.destination = destination;
+        this.wight = wight;
     }
 
     @Override
     public String toString() {
-        return "" + vertex;
+        return destination + ":" + wight ;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Edge edge = (Edge) o;
+        return destination == edge.destination && Double.compare(edge.wight, wight) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(destination, wight);
     }
 }
