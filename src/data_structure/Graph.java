@@ -1,6 +1,10 @@
 package data_structure;
 
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 public class Graph {
     protected LinkedList<Edge>[] vertices;
@@ -23,6 +27,16 @@ public class Graph {
 
     static public Graph fromFile(String filePath){
         return GraphFileHelper.fromFile(filePath);
+    }
+
+    public int getVerticesNumber(){
+        return vertices.length;
+    }
+
+    public LinkedList<Edge> getVertexEdges(int vertex){
+        LinkedList<Edge> result = vertices[vertex];
+        Collections.sort(result);
+        return result;
     }
 
     public void addEdge(int source, int destination, double wight) {

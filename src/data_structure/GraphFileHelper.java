@@ -21,6 +21,7 @@ public class GraphFileHelper {
     public static Graph fromFile(String filePath) {
         Graph graph = null;
         try {
+
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
 
             int numberOfVertices = extractNumberOfVertices(reader.readLine().replaceAll(" ", ""));
