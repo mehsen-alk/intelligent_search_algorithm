@@ -1,13 +1,11 @@
 import data_structure.Graph;
 
-import java.util.Arrays;
-
 public class Test {
     public static void main(String []arg){
-        Graph graph = Graph.fromFile();
+        Graph graph = Graph.fromFile("2.txt");
 
-        int[] result = Algorithm.BFS(graph, 0 , 2);
+        var result = Algorithm.DFS(graph, 0 , 6);
 
-        System.out.println(Arrays.toString(result));
+        System.out.println(result);
     }
 }

@@ -3,23 +3,19 @@ import data_structure.Graph;
 import data_structure.LinkedList;
 
 import java.util.Queue;
+import java.util.Stack;
 
 public class Algorithm {
 
-    public static int[] BFS(Graph graph, int start, int goal){
+    public static LinkedList<Integer> BFS(Graph graph, int start, int goal){
 
-        int resIndex = 0;
         boolean found = false;
-        int[] result = new int[graph.getVerticesNumber()];
+        LinkedList<Integer> result = new LinkedList<>();
         boolean[] visited = new boolean[graph.getVerticesNumber()];
         Queue<Integer> queue = new LinkedList<>();
 
-        for(int i = 0; i < graph.getVerticesNumber(); i++)
-            result[i] = -1;
-
-
         queue.add(start);
-        result[resIndex++] = start;
+        result.add(start);
         visited[start] = true;
 
         while (!queue.isEmpty() && !found){
@@ -29,11 +25,40 @@ public class Algorithm {
                 if (!visited[e.destination]) {
                     queue.add(e.destination);
                     visited[e.destination] = true;
-                    result[resIndex++] = e.destination;
+                    result.add(e.destination);
                 }
                 if (e.destination == goal){
                     found = true;
                     break;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public static LinkedList<Integer> DFS(Graph graph, int start, int goal) {
+
+        LinkedList<Integer> result = new LinkedList<>();
+        boolean[] visited = new boolean[graph.getVerticesNumber()];
+        Stack<Integer> stack = new Stack<>();
+
+        stack.push(start);
+        result.add(start);
+        visited[start] = true;
+
+        while (!stack.isEmpty()){
+            int v = stack.peek();
+            var adj = graph.getVertexEdges(v);
+            for(var t: adj){
+                if(!visited[t.destination]){
+                    stack.push(t.destination);
+                    result.add(t.destination);
+                    visited[t.destination] = true;
+                    if (t.destination == goal) return result;
+                    break;
+                } else if (t == adj.getLast()) {
+                    stack.pop();
                 }
             }
         }
