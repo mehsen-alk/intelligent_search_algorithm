@@ -37,10 +37,12 @@ public class GraphFileHelper {
                     System.out.println(e.getMessage());
                 }
             }
-
-//            reader.close();
-
-        } catch (IOException e) {
+            reader.close();
+        }
+        catch (FileNotFoundException e){
+            System.out.println("path incorrect!");
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
 

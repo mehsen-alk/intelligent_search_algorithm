@@ -100,7 +100,6 @@ public class Algorithm {
                     break;
                 }
             }
-            System.out.println(queue);
         }
 
 
