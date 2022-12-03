@@ -17,17 +17,16 @@ public class Algorithm {
         Queue<Integer> queue = new LinkedList<>();
 
         queue.add(start);
-        result.add(start);
-        visited[start] = true;
 
         while (!queue.isEmpty() && !found){
             int vertex = queue.remove();
+            visited[vertex] = true;
+            result.add(vertex);
+
             LinkedList<Edge> temp = graph.getVertexEdges(vertex);
             for (Edge e : temp) {
                 if (!visited[e.destination]) {
                     queue.add(e.destination);
-                    visited[e.destination] = true;
-                    result.add(e.destination);
                 }
                 if (e.destination == goal){
                     found = true;
@@ -35,7 +34,6 @@ public class Algorithm {
                 }
             }
         }
-
         return result;
     }
 
@@ -46,16 +44,19 @@ public class Algorithm {
         Stack<Integer> stack = new Stack<>();
 
         stack.push(start);
-        result.add(start);
-        visited[start] = true;
 
         while (!stack.isEmpty()){
             int v = stack.peek();
+
+            // the if is for making sure the values does not repeat in the result
+            // if we remove it then the result will show how exactly the algorithm walk through  graph
+            if(!result.contains(v)) result.add(v);
+            visited[v] = true;
+
             var adj = graph.getVertexEdges(v);
             for(var t: adj){
                 if(!visited[t.destination]){
                     stack.push(t.destination);
-                    result.add(t.destination);
                     visited[t.destination] = true;
                     if (t.destination == goal) return result;
                     break;
@@ -64,7 +65,6 @@ public class Algorithm {
                 }
             }
         }
-
         return result;
     }
 
@@ -84,16 +84,17 @@ public class Algorithm {
         );
 
         queue.add(new Edge(start, 0));
-        result.add(start);
 
         while (!queue.isEmpty() && !found){
             Edge edge = queue.remove();
             visited[edge.destination] = true;
             LinkedList<Edge> temp = graph.getVertexEdges(edge.destination);
+            if(!result.contains(edge.destination))
+                result.add(edge.destination);
+
             for (Edge e : temp) {
                 if (!visited[e.destination]) {
                     queue.add(new Edge(e.destination, e.wight + edge.wight));
-                    result.add(e.destination);
                 }
                 if (e.destination == goal){
                     found = true;
@@ -101,8 +102,6 @@ public class Algorithm {
                 }
             }
         }
-
-
         return result;
     }
 
