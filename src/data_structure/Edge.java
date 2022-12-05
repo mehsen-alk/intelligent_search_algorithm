@@ -7,7 +7,6 @@ public class Edge implements Comparable<Edge> {
     public double weight;
 
     public Edge(int destination, double weight) {
-
         this.destination = destination;
         this.weight = weight;
     }

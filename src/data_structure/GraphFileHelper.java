@@ -4,24 +4,9 @@ import java.io.*;
 
 public class GraphFileHelper {
 
-    static public void toFile(Graph graph, String filePath) {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
-
-            writer.write(graph.toString());
-            writer.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
     public static Graph fromFile(String filePath) {
         Graph graph = null;
         try {
-
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
 
             int numberOfVertices = extractNumberOfVertices(reader.readLine().replaceAll(" ", ""));
@@ -50,7 +35,6 @@ public class GraphFileHelper {
     }
 
     private static LinkedList<Edge> extractListOfEdge(String line, int numberOfVertex) {
-
         LinkedList<Edge> list = new LinkedList<>();
         String[] edgesAsString;
 
@@ -60,19 +44,18 @@ public class GraphFileHelper {
         if (line.contains(":")) {
             edgesAsString = line.split(",");
 
-            for (int i = 0; i < edgesAsString.length; i++) {
-                var edge = extractEdge(edgesAsString[i]);
+            for (String s : edgesAsString) {
+                var edge = extractEdge(s);
 
                 if (edge.destination < numberOfVertex) {
                     list.add(edge);
-                }else{
+                } else {
                     throw new RuntimeException("DESTINATION OUT OF RANGE:\n" +
                             " accepted rang is [0, " + numberOfVertex + "[ " +
                             "but found: " + edge.destination);
                 }
             }
         }
-
         return list;
     }
 

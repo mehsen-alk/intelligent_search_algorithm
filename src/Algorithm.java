@@ -9,7 +9,6 @@ import java.util.Stack;
 public class Algorithm {
 
     public static LinkedList<Integer> BFS(Graph graph, int start, int goal){
-
         boolean found = false;
         LinkedList<Integer> result = new LinkedList<>();
         boolean[] visited = new boolean[graph.getVerticesNumber()];
@@ -37,7 +36,6 @@ public class Algorithm {
     }
 
     public static LinkedList<Integer> DFS(Graph graph, int start, int goal) {
-
         LinkedList<Integer> result = new LinkedList<>();
         boolean[] visited = new boolean[graph.getVerticesNumber()];
         Stack<Integer> stack = new Stack<>();
@@ -90,11 +88,7 @@ public class Algorithm {
 
             for (Edge e : temp) {
                 if (!visited[e.destination]) {
-                    queue.add(new Edge(e.destination,
-                            // calculating the weight
-                            // it will be the previous vertex weight + the weight of the new vertex
-                            e.weight + edge.weight
-                    ));
+                    queue.add(new Edge(e.destination,e.weight + edge.weight));
                 }
                 if (e.destination == goal){
                     found = true;
@@ -138,6 +132,4 @@ public class Algorithm {
         }
         return result;
     }
-
-
 }
