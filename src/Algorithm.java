@@ -2,7 +2,6 @@ import data_structure.Edge;
 import data_structure.Graph;
 import data_structure.LinkedList;
 
-import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
@@ -110,14 +109,11 @@ public class Algorithm {
         boolean found = false;
         LinkedList<Integer> result = new LinkedList<>();
         boolean[] visited = new boolean[graph.getVerticesNumber()];
-        PriorityQueue<Edge> queue = new PriorityQueue<Edge>(
-                new Comparator<Edge>() {
-                    @Override
-                    public int compare(Edge o1, Edge o2) {
-                        if (o1.weight > o2.weight) return 1;
-                        else if (o1.weight < o2.weight) return -1;
-                        return 0;
-                    }
+        PriorityQueue<Edge> queue = new PriorityQueue<>(
+                (o1, o2) -> {
+                    if (o1.weight > o2.weight) return 1;
+                    else if (o1.weight < o2.weight) return -1;
+                    return 0;
                 }
         );
 
