@@ -21,6 +21,7 @@ public class Main {
                     "2_ BFS\n" +
                     "3_ DFS\n" +
                     "4_ UCS\n" +
+                    "5_ greedy BFS\n" +
                     "0_ exit\n" +
                     "your choice: ");
             try {
@@ -33,15 +34,17 @@ public class Main {
             switch (choice) {
                 case 0 -> end = true;
                 case 1 -> graph = null;
-                case 2, 3, 4 -> {
+                case 2, 3, 4, 5 -> {
                     System.out.print("enter the starting node: ");
                     int start = in.nextInt();
                     System.out.print("enter the goal node: ");
                     int goal = in.nextInt();
+                    int[]h = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
                     switch (choice) {
                         case 2 -> System.out.println(Algorithm.BFS(graph, start, goal));
                         case 3 -> System.out.println(Algorithm.DFS(graph, start, goal));
                         case 4 -> System.out.println(Algorithm.UCS(graph, start, goal));
+                        case 5 -> System.out.println(Algorithm.greedyBFS(graph, start, goal, h));
                     }
                 }
                 default -> System.out.println("wrong input!");

@@ -72,12 +72,50 @@ public class Algorithm {
         boolean found = false;
         LinkedList<Integer> result = new LinkedList<>();
         boolean[] visited = new boolean[graph.getVerticesNumber()];
+        PriorityQueue<Edge> queue = new PriorityQueue<>(
+                (o1, o2) -> {
+                    if (o1.weight > o2.weight) return 1;
+                    else if (o1.weight < o2.weight) return -1;
+                    return 0;
+                }
+        );
+
+        queue.add(new Edge(start, 0));
+
+        while (!queue.isEmpty() && !found){
+            Edge edge = queue.remove();
+            visited[edge.destination] = true;
+            LinkedList<Edge> temp = graph.getVertexEdges(edge.destination);
+            if(!result.contains(edge.destination))
+                result.add(edge.destination);
+
+            for (Edge e : temp) {
+                if (!visited[e.destination]) {
+                    queue.add(new Edge(e.destination,
+                            // calculating the weight
+                            // it will be the previous vertex weight + the weight of the new vertex
+                            e.weight + edge.weight
+                    ));
+                }
+                if (e.destination == goal){
+                    found = true;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    public  static LinkedList<Integer> greedyBFS(Graph graph, int start, int goal, int[] h){
+        boolean found = false;
+        LinkedList<Integer> result = new LinkedList<>();
+        boolean[] visited = new boolean[graph.getVerticesNumber()];
         PriorityQueue<Edge> queue = new PriorityQueue<Edge>(
                 new Comparator<Edge>() {
                     @Override
                     public int compare(Edge o1, Edge o2) {
-                        if (o1.wight > o2.wight) return 1;
-                        else if (o1.wight < o2.wight) return -1;
+                        if (o1.weight > o2.weight) return 1;
+                        else if (o1.weight < o2.weight) return -1;
                         return 0;
                     }
                 }
@@ -94,7 +132,7 @@ public class Algorithm {
 
             for (Edge e : temp) {
                 if (!visited[e.destination]) {
-                    queue.add(new Edge(e.destination, e.wight + edge.wight));
+                    queue.add(new Edge(e.destination, h[e.destination]));
                 }
                 if (e.destination == goal){
                     found = true;
@@ -104,5 +142,6 @@ public class Algorithm {
         }
         return result;
     }
+
 
 }
