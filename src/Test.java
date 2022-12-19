@@ -1,9 +1,12 @@
 import data_structure.Graph;
 
+import java.util.Scanner;
+
 public class Test {
     public static void main(String []arg){
-        Graph graph = Graph.fromFile("3.txt");
-        System.out.println("ucs: " + Algorithm.UCS(graph, 0, 4));
-        System.out.println("greedy bfs: " + Algorithm.greedyBFS(graph, 0, 4, new int[]{1, 2, 9, 4, 5, 1}));
+        Scanner in = new Scanner(System.in);
+        Graph graph = Graph.fromFile("input.txt");
+        System.out.println(graph);
+        System.out.println(Algorithm.BFS(graph, 0, 12));
     }
 }

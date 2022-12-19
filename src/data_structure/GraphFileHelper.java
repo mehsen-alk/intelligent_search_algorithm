@@ -40,30 +40,37 @@ public class GraphFileHelper {
 
         line = line.substring(line.indexOf("_") + 1);
 
-        // if was false that means the current vertex doesn't have direct edge to other vertex
-        if (line.contains(":")) {
-            edgesAsString = line.split(",");
 
-            for (String s : edgesAsString) {
-                var edge = extractEdge(s);
+        edgesAsString = line.split(",");
 
-                if (edge.destination < numberOfVertex) {
-                    list.add(edge);
-                } else {
-                    throw new RuntimeException("DESTINATION OUT OF RANGE:\n" +
-                            " accepted rang is [0, " + numberOfVertex + "[ " +
-                            "but found: " + edge.destination);
-                }
+        for (String s : edgesAsString) {
+            var edge = extractEdge(s);
+
+            if (edge.destination < numberOfVertex) {
+                list.add(edge);
+            } else {
+                throw new RuntimeException("DESTINATION OUT OF RANGE:\n" +
+                        " accepted rang is [0, " + numberOfVertex + "[ " +
+                        "but found: " + edge.destination);
             }
         }
+
         return list;
     }
 
     private static Edge extractEdge(String edgeAsString) {
         Edge edge;
 
-        String[] temp = edgeAsString.split(":");
-        edge = new Edge(Integer.parseInt(temp[0]), Double.parseDouble(temp[1]));
+        System.out.println(edgeAsString);
+        // weighted graph
+        if(edgeAsString.contains(":")) {
+            String[] temp = edgeAsString.split(":");
+            edge = new Edge(Integer.parseInt(temp[0]), Double.parseDouble(temp[1]));
+        }
+        // unweighted graph
+        else {
+            edge = new Edge(Integer.parseInt(edgeAsString), 0);
+        }
 
         return edge;
     }
