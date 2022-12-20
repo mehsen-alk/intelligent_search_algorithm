@@ -60,8 +60,6 @@ public class GraphFileHelper {
 
     private static Edge extractEdge(String edgeAsString) {
         Edge edge;
-
-        System.out.println(edgeAsString);
         // weighted graph
         if(edgeAsString.contains(":")) {
             String[] temp = edgeAsString.split(":");

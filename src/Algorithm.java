@@ -19,7 +19,7 @@ public class Algorithm {
         while (!queue.isEmpty() && !found){
             int vertex = queue.remove();
             visited[vertex] = true;
-            // if(!result.contains(vertex))
+            if(!result.contains(vertex))
               result.add(vertex);
 
             LinkedList<Edge> temp = graph.getVertexEdges(vertex);
